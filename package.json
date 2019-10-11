@@ -1,0 +1,26 @@
+{
+  "name": "event-scanner",
+  "version": "0.0.1",
+  "description": "A JavaScript tool to scan smart contract events on Ethereum",
+  "main": "index.js",
+  "scripts": {
+      "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leapdao/event-scanner.git"
+  },
+  "keywords": [
+    "Ethereum",
+    "events",
+    "scan",
+    "smart",
+    "contract"
+  ],
+  "author": "LeapDAO",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leapdao/event-scanner/issues"
+  },
+  "homepage": "https://github.com/leapdao/event-scanner#readme"
+}
