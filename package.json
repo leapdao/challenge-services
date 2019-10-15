@@ -2,9 +2,9 @@
   "name": "event-scanner",
   "version": "0.0.1",
   "description": "A JavaScript tool to scan smart contract events on Ethereum",
-  "main": "src/main.js",
+  "main": "src/run.js",
   "scripts": {
-    "start": "node src/main.js",
+    "start": "node src/run.js",
     "test": "mocha --require test/bootstrap.js test"
   },
   "repository": {
@@ -33,6 +33,7 @@
     "chai": "^4.2.0",
     "mocha": "^6.2.1",
     "rewire": "^4.0.1",
-    "rimraf": "^3.0.0"
+    "rimraf": "^3.0.0",
+    "sinon": "^7.5.0"
   }
 }

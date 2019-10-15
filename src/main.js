@@ -55,4 +55,6 @@ function init() {
   };
 }
 
-run();
+module.exports = {
+  run
+};
