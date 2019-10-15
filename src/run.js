@@ -1,4 +1,3 @@
-const { run } = require("./main");
+const { run } = require("./events");
 
 run();
-

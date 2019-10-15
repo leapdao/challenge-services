@@ -3,11 +3,9 @@ const { assert } = require("chai");
 const rewire = require("rewire");
 const sinon = require("sinon");
 
-const main = require("../src/main");
-
 describe("Event Scanner", () => {
   it("should set a block height in the database if none is defined for given contract address", async () => {
-    const getHeights = rewire("../src/main").__get__("getHeights");
+    const getHeights = rewire("../src/events").__get__("getHeights");
     const db = {
       get: sinon
         .stub()
