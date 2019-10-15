@@ -5,7 +5,7 @@ const sinon = require("sinon");
 
 describe("Event Scanner", () => {
   it("should set a block height in the database if none is defined for given contract address", async () => {
-    const getHeights = rewire("../src/events").__get__("getHeights");
+    const getLocalHeights = rewire("../src/events").__get__("getLocalHeights");
     const db = {
       get: sinon
         .stub()
@@ -34,7 +34,7 @@ describe("Event Scanner", () => {
         }
       }
     ];
-    const heights = await getHeights(db, contracts);
+    const heights = await getLocalHeights(db, contracts);
 
     assert(
       db.put.callCount === 2 && db.put.lastArg === "0",

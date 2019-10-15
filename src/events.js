@@ -9,10 +9,10 @@ const web3 = new Web3(config.endpoint);
 
 async function run() {
   const { db, contracts } = init();
-  const heights = await getHeights(db, contracts);
+  const localHeights = await getLocalHeights(db, contracts);
 }
 
-async function getHeights(db, contracts) {
+async function getLocalHeights(db, contracts) {
   const queries = contracts.map(c => `${c.options.address}_height`);
   let p = queries.map(q => db.get(q));
 
