@@ -4,7 +4,7 @@ const levelup = require("levelup");
 const leveldown = require("leveldown");
 const allSettled = require("promise.allsettled");
 
-const config = require("./config");
+const config = require("../config");
 const web3 = new Web3(config.endpoint);
 
 async function run() {
@@ -20,17 +20,21 @@ async function getHeights(db, contracts) {
   // We use the new ESNext compliant `allSettled` functionality to
   // filter by keys that haven't been defined yet and ...
   const results = await allSettled(p);
-  const heights = results.map(r => (r.status === "rejected" ? 0 : parseInt(r.value, 10)));
+  const heights = results.map(
+    r => (r.status === "rejected" ? 0 : parseInt(r.value, 10))
+  );
 
   // ... we define all values that throw errors.
-  p = heights.reduce(
-    (acc, curr, i) =>
-      // NOTE: We're using `concat` instead of `push` here to return the
-      // update array to the reduce function.
-      curr === 0 ? acc.concat([contracts[i].options.address]) : acc,
-    []
-  ).map(c => db.put(`${c}_height`, "0"));
-  await Promise.all(p)
+  p = heights
+    .reduce(
+      (acc, curr, i) =>
+        // NOTE: We're using `concat` instead of `push` here to return the
+        // update array to the reduce function.
+        curr === 0 ? acc.concat([contracts[i].options.address]) : acc,
+      []
+    )
+    .map(c => db.put(`${c}_height`, "0"));
+  await Promise.all(p);
 
   return heights;
 }

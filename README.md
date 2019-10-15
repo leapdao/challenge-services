@@ -21,6 +21,15 @@ service should scan for new blocks.
 1. Build the container using: `sudo docker build --rm -t event-scanner .`
 1. And to run it in the foreground: `sudo docker run -t -i event-scanner`
 
+## Contribute and Test
+
+```
+$ git clone git@github.com:leapdao/challenge-services.git
+$ cd challenge-services
+$ npm i
+$ npm run test
+```
+
 ## License
 
 MIT
