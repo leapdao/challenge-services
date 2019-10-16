@@ -1,3 +1,3 @@
 ## We're directly logging to stdout and stderr because of this: https://stackoverflow.com/a/46220104/1263876
-* * * * * /usr/local/bin/node /usr/src/event-scanner/src/events.js > /proc/1/fd/1 2>/proc/1/fd/2
+* * * * * /usr/local/bin/node /usr/src/event-scanner/src/run.js > /proc/1/fd/1 2>/proc/1/fd/2
 # An empty line is required at the end of this file for a valid cron file.

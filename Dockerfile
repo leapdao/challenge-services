@@ -18,6 +18,10 @@ RUN touch /var/log/cron.log
 # Create work directory for the event scanner app
 WORKDIR /usr/src/event-scanner
 
+# Run npm install on the node project
+COPY package*.json ./
+RUN npm i
+
 # Copy the app into the container
 COPY . /usr/src/event-scanner
 

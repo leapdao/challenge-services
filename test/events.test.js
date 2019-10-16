@@ -5,18 +5,19 @@ const sinon = require("sinon");
 
 describe("Event Scanner", () => {
   it("should set a block height in the database if none is defined for given contract address", async () => {
-    const getLocalHeights = rewire("../src/events").__get__("getLocalHeights");
     const db = {
       get: sinon
         .stub()
         .onCall(0)
-        .rejects("Not found")
+        .resolves(null)
         .onCall(1)
         .resolves("42")
         .onCall(2)
-        .rejects("Not found"),
-      put: sinon.fake.resolves("Saved")
+        .resolves(null),
+      set: sinon.fake.resolves("Saved")
     };
+    const getLocalHeights = rewire("../src/events").__get__("getLocalHeights");
+
     const contracts = [
       {
         options: {
@@ -37,7 +38,7 @@ describe("Event Scanner", () => {
     const heights = await getLocalHeights(db, contracts);
 
     assert(
-      db.put.callCount === 2 && db.put.lastArg === "0",
+      db.set.callCount === 2 && db.set.lastArg === "0",
       "Two default values for height should be written to the database"
     );
     assert.deepEqual(

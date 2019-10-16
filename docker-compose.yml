@@ -1,0 +1,22 @@
+version: "3.1"
+services:
+  event_scanner:
+    container_name: event_scanner
+    build: .
+    volumes:
+      - ./db:/home/data
+    secrets:
+      - redis_pass
+    depends_on:
+      - redis
+  redis:
+    container_name: redis
+    image: redis
+    volumes:
+      - ./redis:/data
+    command: ["sh", "-c", "redis-server --requirepass \"$$(cat /run/secrets/redis_pass)\" --appendonly \"yes\""]
+    secrets:
+      - redis_pass
+secrets:
+  redis_pass:
+    file: ./config/redis_pass.txt
