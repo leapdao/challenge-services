@@ -3,8 +3,6 @@ services:
   event_scanner:
     container_name: event_scanner
     build: .
-    volumes:
-      - ./db:/home/data
     secrets:
       - redis_pass
     depends_on:
