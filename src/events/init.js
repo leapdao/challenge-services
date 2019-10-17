@@ -10,6 +10,7 @@ const web3 = new Web3(config.endpoint);
 
 function initContracts() {
   const contracts = [];
+  const queueNames = [];
   for (let i = 0; i < config.contracts.length; i++) {
     contracts.push(
       new web3.eth.Contract(
@@ -17,11 +18,15 @@ function initContracts() {
         config.contracts[i].address
       )
     );
+    queueNames.push(config.contracts[i].queue.name);
   }
-  return contracts;
+  return {
+    contracts,
+    queueNames
+  };
 }
 
-async function initRSMQ(password) {
+async function initRSMQ(password, queueNames) {
   const rsmq = new RSMQPromise({
     host: config.redis.options.host,
     port: config.redis.options.port,
@@ -30,7 +35,7 @@ async function initRSMQ(password) {
   });
 
   // NOTE: On first run, a queue might not exist yet, so we need to create it.
-  await initQueue(rsmq);
+  await initQueue(rsmq, queueNames);
 
   return rsmq;
 }
@@ -56,26 +61,34 @@ function initDB(password) {
 async function init() {
   // NOTE: It's important to trim the secret file from whitespaces
   const password = fs.readFileSync("/run/secrets/redis_pass", "utf8").trim();
+  const { contracts, queueNames } = initContracts();
 
   return {
-    contracts: initContracts(),
-    rsmq: await initRSMQ(password),
+    contracts,
+    queueNames,
+    rsmq: await initRSMQ(password, queueNames),
     db: initDB(password),
     web3: web3
   };
 }
 
-async function initQueue(rsmq) {
-  try {
-    await rsmq.getQueueAttributes({ qname: config.redis.queue.name });
-  } catch (err) {
-    console.log("No matching redis queue found. Creating a new one");
+async function initQueue(rsmq, queueNames) {
+  for (let i = 0; i < queueNames.length; i++) {
+    const queueName = queueNames[i];
+
     try {
-      await rsmq.createQueue({ qname: config.redis.queue.name });
-      console.log("Queue successfully created...");
+      await rsmq.getQueueAttributes({ qname: queueName });
     } catch (err) {
-      console.log(err);
-      process.exit(1);
+      console.log(
+        `No matching redis queue found for queue name ${queueName}. Creating a new one.`
+      );
+      try {
+        await rsmq.createQueue({ qname: queueName });
+        console.log("Queue successfully created...");
+      } catch (err) {
+        console.log(err);
+        process.exit(1);
+      }
     }
   }
 }
