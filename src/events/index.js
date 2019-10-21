@@ -6,7 +6,8 @@ const init = require("./init");
 
 async function run() {
   const { db, web3, rsmq, contracts } = await init();
-  const localHeights = await getLocalHeights(db, contracts);
+  const addresses = contracts.map(c => c.options.address);
+  const localHeights = await getLocalHeights(db, addresses);
   const diffs = await getDifferences(web3, localHeights);
 
   for (let i = 0; i < contracts.length; i++) {
@@ -20,20 +21,27 @@ async function run() {
       console.log("Nothing to scan...");
       // noop
     } else {
-      console.log(`Contract ${contract.options.address} is at local height ${localHeight} (diff: ${diff})`);
+      console.log(
+        `Contract ${
+          contract.options.address
+        } is at local height ${localHeight} (diff: ${diff})`
+      );
       const events = await scan(contract, localHeight, diff);
       if (events.length <= 0) {
         console.log(`No new events for contract ${contract.options.address}`);
-        await db.set(`${contract.options.address}_height`, localHeight + diff);
       } else {
         try {
           await send(rsmq, events);
         } catch (err) {
           console.log("Failed to send all events", err);
         }
-        console.log(`Successfully wrote ${events.length} events to queue for contract: ${contract.options.address}.`);
-        await db.set(`${contract.options.address}_height`, localHeight + diff);
       }
+      console.log(
+        `Successfully wrote ${events.length} events to queue for contract: ${
+          contract.options.address
+        }.`
+      );
+      await db.set(`${contract.options.address}_height`, localHeight + diff);
     }
   }
   await teardown(db, rsmq);
@@ -74,28 +82,16 @@ async function getDifferences(web3, localHeights) {
   return localHeights.map(h => remoteHeight - h);
 }
 
-async function getLocalHeights(db, contracts) {
-  const queries = contracts.map(c => `${c.options.address}_height`);
-  let p = queries.map(q => db.get(q));
+async function getLocalHeights(db, addresses) {
+  const queries = addresses.map(a => `${a}_height`);
 
   // NOTE: If values have not been set yet in redis, then it returns
   // the value as null on a get. We want to set all these values to zero
   // initially
-  const results = await allSettled(p);
+  const results = await allSettled(queries.map(q => db.get(q)));
   const heights = results.map(
     r => (r.status === "fulfilled" && !r.value ? 0 : parseInt(r.value, 10))
   );
-
-  p = heights
-    .reduce(
-      (acc, curr, i) =>
-        // NOTE: We're using `concat` instead of `push` here to return the
-        // update array to the reduce function.
-        curr === 0 ? acc.concat([contracts[i].options.address]) : acc,
-      []
-    )
-    .map(c => db.set(`${c}_height`, "0"));
-  await Promise.all(p);
 
   return heights;
 }

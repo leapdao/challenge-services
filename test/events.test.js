@@ -37,10 +37,6 @@ describe("Event Scanner", () => {
     ];
     const heights = await getLocalHeights(db, contracts);
 
-    assert(
-      db.set.callCount === 2 && db.set.lastArg === "0",
-      "Two default values for height should be written to the database"
-    );
     assert.deepEqual(
       heights,
       [0, 42, 0],
