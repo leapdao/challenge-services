@@ -1,0 +1,41 @@
+{
+  "name": "challenge-services",
+  "version": "0.0.1",
+  "description": "A JavaScript tool to scan smart contract events on Ethereum",
+  "main": "src/run.js",
+  "scripts": {
+    "start": "node src/run.js",
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leapdao/challenge-service.git"
+  },
+  "keywords": [
+    "Ethereum",
+    "events",
+    "scan",
+    "smart",
+    "contract"
+  ],
+  "author": "LeapDAO",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leapdao/challenge-service/issues"
+  },
+  "homepage": "https://github.com/leapdao/challenge-service#readme",
+  "dependencies": {
+    "promise.allsettled": "1.0.1",
+    "redis": "2.8.0",
+    "rsmq-promise": "1.0.4",
+    "web3": "1.2.1",
+    "websocket": "1.0.30"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.1",
+    "rewire": "^4.0.1",
+    "rimraf": "^3.0.0",
+    "sinon": "^7.5.0"
+  }
+}

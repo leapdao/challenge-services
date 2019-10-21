@@ -1,0 +1,16 @@
+{
+  "endpoint": "An Ethereum node RPC URI",
+  "redis": {
+    "options": {
+      "host": "The redis host",
+      "port": 6379
+    },
+    "queue": {
+      "name": "The name of the queue holding all contract events"
+    }
+  },
+  "contracts": [{
+    "address": "A contract address that should be listened to for events",
+    "ABI": "A valid JSON ABI of the contract at the above specified address"
+  }]
+}

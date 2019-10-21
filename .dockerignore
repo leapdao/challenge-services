@@ -1,0 +1,5 @@
+node_modules
+db
+config/redis_pass.txt
+.DS_Store
+redis
