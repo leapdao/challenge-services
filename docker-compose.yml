@@ -1,22 +1,25 @@
-version: "3.1"
+version: "3"
 services:
   event_scanner:
     container_name: event_scanner
-    build: .
-    volumes:
-      - ./db:/home/data
-    secrets:
-      - redis_pass
+    image: timdaub/challenge-services
     depends_on:
       - redis
+    logging:
+        driver: awslogs
+        options:
+          awslogs-region: eu-central-1
+          awslogs-group: challenge-services
+          awslogs-stream-prefix: lol
   redis:
     container_name: redis
     image: redis
     volumes:
-      - ./redis:/data
-    command: ["sh", "-c", "redis-server --requirepass \"$$(cat /run/secrets/redis_pass)\" --appendonly \"yes\""]
-    secrets:
-      - redis_pass
-secrets:
-  redis_pass:
-    file: ./config/redis_pass.txt
+      - /data
+    command: ["sh", "-c", "redis-server --appendonly \"yes\""]
+    logging:
+        driver: awslogs
+        options:
+          awslogs-region: eu-central-1
+          awslogs-group: challenge-services
+          awslogs-stream-prefix: lol

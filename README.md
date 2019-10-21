@@ -1,4 +1,4 @@
-# event-scanner
+# challenge-services
 
 > A JavaScript tool to scan smart contract events on Ethereum
 
@@ -23,6 +23,18 @@ for new blocks.
 ## Installation
 
 1. To build and run the container: `docker-compose up --build`
+
+## Deploy to AWS ECS
+
+1. Install ECS-CLI
+1. Create a ECS cluster configuration locally: `ecs-cli configure --cluster challenge-services --default-launch-type FARGATE --region eu-central-1`
+1. `ecs-cli up` creates a cluster. Note down the two created subnets and add them to `ecs-params.yml`
+1. `ecs-cli compose --cluster default --file docker-compose.yml service up`
+
+Helpful pages:
+
+- https://medium.com/@peatiscoding/docker-compose-ecs-91b033c8fdb6
+- https://www.bogotobogo.com/DevOps/Docker/Docker-ECS-CLI-Docker-Compose-Wordpress-Fargate-Type.php
 
 ## Contribute and Test
 
