@@ -28,13 +28,21 @@ for new blocks.
 
 1. Install ECS-CLI
 1. Create a ECS cluster configuration locally: `ecs-cli configure --cluster challenge-services --default-launch-type FARGATE --region eu-central-1`
-1. `ecs-cli up` creates a cluster. Note down the two created subnets and add them to `ecs-params.yml`
-1. `ecs-cli compose --cluster default --file docker-compose.yml service up`
+1. `ecs-cli --cluster challenge-services up` creates a cluster. Note down the two created subnets and add them to `ecs-params.yml`
+1. `ecs-cli compose --cluster challenge-services --file docker-compose.yml service up`
 
 Helpful pages:
 
 - https://medium.com/@peatiscoding/docker-compose-ecs-91b033c8fdb6
 - https://www.bogotobogo.com/DevOps/Docker/Docker-ECS-CLI-Docker-Compose-Wordpress-Fargate-Type.php
+
+### Logging
+
+To get information about logging:
+
+```
+ecs-cli logs --task-id 7ab94d08-e6f1-4907-a974-30ee154e68b4 --container-name event_scanner
+```
 
 ## Contribute and Test
 

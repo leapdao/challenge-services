@@ -1,0 +1,15 @@
+version: "3"
+services:
+  event_scanner:
+    container_name: event_scanner
+    build: .
+    depends_on:
+      - redis
+    environment:
+      - REDIS_PASS
+  redis:
+    container_name: redis
+    image: redis
+    volumes:
+      - /data
+    command: ["sh", "-c", "redis-server --requirepass $REDIS_PASS --appendonly \"yes\""]

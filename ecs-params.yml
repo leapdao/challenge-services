@@ -5,10 +5,13 @@ task_definition:
   task_size:
     mem_limit: 0.5GB
     cpu_limit: 256
+  secrets:
+    name: REDIS_PASS
+    valueFrom: arn:aws:ssm:region:aws_account_id:challenge-services/redis_pass
 run_params:
   network_configuration:
     awsvpc_configuration:
       subnets:
-        - "subnet-0902eb996f7cac2ab"
+        - "subnet-098d2fa0ee6f1e00d"
         - "subnet-098d2fa0ee6f1e00d"
       assign_public_ip: ENABLED

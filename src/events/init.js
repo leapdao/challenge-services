@@ -37,6 +37,7 @@ async function initRSMQ(password, queueNames) {
   // NOTE: On first run, a queue might not exist yet, so we need to create it.
   await initQueue(rsmq, queueNames);
 
+  console.log("hi");
   return rsmq;
 }
 
@@ -59,8 +60,8 @@ function initDB(password) {
 }
 
 async function init() {
-  // NOTE: It's important to trim the secret file from whitespaces
-  const password = fs.readFileSync("/run/secrets/redis_pass", "utf8").trim();
+  console.log(process.env.REDIS_PASS);
+  const password = process.env.REDIS_PASS;
   const { contracts, queueNames } = initContracts();
 
   return {

@@ -27,3 +27,4 @@ COPY . /usr/src/event-scanner
 
 # Run the command on container startup
 CMD ["cron", "-f"]
+#CMD ["/usr/local/bin/node", "/usr/src/event-scanner/src/run.js"]
