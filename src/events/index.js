@@ -1,7 +1,6 @@
 // @format
 const allSettled = require("promise.allsettled");
 
-const config = require("../../config");
 const init = require("./init");
 
 async function run() {

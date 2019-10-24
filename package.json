@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/leapdao/challenge-service#readme",
   "dependencies": {
+    "config": "3.2.3",
     "promise.allsettled": "1.0.1",
     "redis": "2.8.0",
     "rsmq-promise": "1.0.4",

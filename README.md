@@ -7,7 +7,7 @@
 To create a config, do the following:
 
 ```
-$ mv config/index_template.json config/index.json
+$ mv config/default_template.json config/default.json
 ```
 
 Fill in all the relevant information. The template file contains a rough

@@ -30,7 +30,7 @@ describe("Init", () => {
 
     const events = rewire("../../src/events/init");
     events.__set__("config", {
-      contracts: [expected]
+      get: () => [expected]
     });
 
     const initContracts = events.__get__("initContracts");
