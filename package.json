@@ -5,7 +5,8 @@
   "main": "src/run.js",
   "scripts": {
     "start": "node src/run.js",
-    "test": "NODE_ENV=test mocha --recursive"
+    "test": "NODE_ENV=test nyc mocha --recursive",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "repository": {
     "type": "git",

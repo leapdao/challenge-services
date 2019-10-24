@@ -4,5 +4,7 @@ node_js:
 cache: npm
 install:
   - npm install
+  - npm install -g nyc codecov
 script: 
   - npm run test
+  - npm run report-coverage
