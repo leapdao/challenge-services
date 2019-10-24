@@ -1,5 +1,6 @@
 node_modules
 db
 config/redis_pass.txt
+config/index.json
 .DS_Store
 redis

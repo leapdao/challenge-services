@@ -5,6 +5,8 @@ services:
     image: quay.io/leapdao/challenge-services
     depends_on:
       - redis
+    volumes:
+      - ./config/index.json:/usr/src/event-scanner/config/index.json
   redis:
     container_name: redis
     image: redis
