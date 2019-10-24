@@ -16,26 +16,12 @@ describe("Event Scanner", () => {
         .resolves(null),
       set: sinon.fake.resolves("Saved")
     };
-    const getLocalHeights = rewire("../src/events").__get__("getLocalHeights");
+    const getLocalHeights = rewire("../../src/events").__get__(
+      "getLocalHeights"
+    );
 
-    const contracts = [
-      {
-        options: {
-          address: "abc"
-        }
-      },
-      {
-        options: {
-          address: "abc2"
-        }
-      },
-      {
-        options: {
-          address: "abc3"
-        }
-      }
-    ];
-    const heights = await getLocalHeights(db, contracts);
+    const addresses = ["abc", "bde", "fgh"];
+    const heights = await getLocalHeights(db, addresses);
 
     assert.deepEqual(
       heights,

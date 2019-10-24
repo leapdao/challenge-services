@@ -26,6 +26,9 @@ for new blocks.
 
 ## Contribute and Test
 
+Before running the tests, you'll have to run through the configuration described
+above.
+
 ```
 $ git clone git@github.com:leapdao/challenge-services.git
 $ cd challenge-services

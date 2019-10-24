@@ -5,7 +5,8 @@ const config = require("../../config");
 const init = require("./init");
 
 async function run() {
-  const { db, web3, rsmq, contracts } = await init();
+  const { db, web3, rsmq, contracts, queueNames } = await init();
+
   const addresses = contracts.map(c => c.options.address);
   const localHeights = await getLocalHeights(db, addresses);
   const diffs = await getDifferences(web3, localHeights);
@@ -31,9 +32,15 @@ async function run() {
         console.log(`No new events for contract ${contract.options.address}`);
       } else {
         try {
-          await send(rsmq, events);
+          await send(rsmq, queueNames[i], events);
         } catch (err) {
-          console.log("Failed to send all events", err);
+          console.log(
+            `Failed to send all events for contract ${
+              contract.options.address
+            } for queue ${queueNames[i]}`,
+            err
+          );
+          continue;
         }
       }
       console.log(
@@ -59,10 +66,10 @@ async function teardown(db, rsmq) {
   }
 }
 
-async function send(rsmq, events) {
+async function send(rsmq, qname, events) {
   const p = events.map(e => {
     return rsmq.sendMessage({
-      qname: config.redis.queue.name,
+      qname,
       message: JSON.stringify(e)
     });
   });
