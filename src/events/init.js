@@ -26,12 +26,11 @@ function initContracts() {
   };
 }
 
-async function initRSMQ(password, queueNames) {
+async function initRSMQ(queueNames) {
   const rsmq = new RSMQPromise({
     host: config.redis.options.host,
     port: config.redis.options.port,
-    ns: "rsmq",
-    password
+    ns: "rsmq"
   });
 
   // NOTE: On first run, a queue might not exist yet, so we need to create it.
@@ -40,11 +39,10 @@ async function initRSMQ(password, queueNames) {
   return rsmq;
 }
 
-function initDB(password) {
+function initDB() {
   const redisClient = redis.createClient({
     host: config.redis.options.host,
-    port: config.redis.options.port,
-    password
+    port: config.redis.options.port
   });
 
   // NOTE: This is unfortunately how the redis client docs recommend
@@ -59,15 +57,13 @@ function initDB(password) {
 }
 
 async function init() {
-  // NOTE: It's important to trim the secret file from whitespaces
-  const password = fs.readFileSync("/run/secrets/redis_pass", "utf8").trim();
   const { contracts, queueNames } = initContracts();
 
   return {
     contracts,
     queueNames,
-    rsmq: await initRSMQ(password, queueNames),
-    db: initDB(password),
+    rsmq: await initRSMQ(queueNames),
+    db: initDB(),
     web3: web3
   };
 }

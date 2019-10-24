@@ -13,10 +13,6 @@ $ mv config/index_template.json config/index.json
 Fill in all the relevant information. The template file contains a rough
 documentation of the fields.
 
-This service uses a redis instance to store its local block height and uses it
-as a queue (rsmq). We use Docker Secrets to propagate the redis password.
-Generate a secure password and store it in `config/redis_pass.txt`.
-
 In `config/crontab`, define the frequency with which the service should scan
 for new blocks.
 

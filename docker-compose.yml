@@ -3,8 +3,6 @@ services:
   event_scanner:
     container_name: event_scanner
     build: .
-    secrets:
-      - redis_pass
     depends_on:
       - redis
   redis:
@@ -12,9 +10,4 @@ services:
     image: redis
     volumes:
       - ./redis:/data
-    command: ["sh", "-c", "redis-server --requirepass \"$$(cat /run/secrets/redis_pass)\" --appendonly \"yes\""]
-    secrets:
-      - redis_pass
-secrets:
-  redis_pass:
-    file: ./config/redis_pass.txt
+    command: ["sh", "-c", "redis-server --appendonly \"yes\""]
