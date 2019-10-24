@@ -5,7 +5,7 @@
   "main": "src/run.js",
   "scripts": {
     "start": "node src/run.js",
-    "test": "mocha --recursive"
+    "test": "NODE_ENV=test mocha --recursive"
   },
   "repository": {
     "type": "git",
