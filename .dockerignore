@@ -1,5 +1,5 @@
 node_modules
-db
-config/redis_pass.txt
+config/default.json
 .DS_Store
 redis
+.nyc_output

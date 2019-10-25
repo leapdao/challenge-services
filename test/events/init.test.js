@@ -30,7 +30,7 @@ describe("Init", () => {
 
     const events = rewire("../../src/events/init");
     events.__set__("config", {
-      contracts: [expected]
+      get: () => [expected]
     });
 
     const initContracts = events.__get__("initContracts");
@@ -41,14 +41,14 @@ describe("Init", () => {
   });
 
   it("should create a queue if it doesn't exist yet", async () => {
-    const initQueue = rewire("../../src/events/init").__get__("initQueue");
+    const initQueues = rewire("../../src/events/init").__get__("initQueues");
     const rsmqStub = {
       getQueueAttributes: sinon.fake.throws(),
       createQueue: sinon.fake.resolves(1)
     };
 
     const expectedQueueName = "queue_name";
-    await initQueue(rsmqStub, [expectedQueueName]);
+    await initQueues(rsmqStub, [expectedQueueName]);
 
     assert(rsmqStub.getQueueAttributes.callCount === 1);
     assert(rsmqStub.createQueue.callCount === 1);

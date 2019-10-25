@@ -2,7 +2,7 @@ version: "3.1"
 services:
   event_scanner:
     container_name: event_scanner
-    build: .
+    image: quay.io/leapdao/challenge-services
     depends_on:
       - redis
     volumes:
@@ -13,3 +13,8 @@ services:
     volumes:
       - ./redis:/data
     command: ["sh", "-c", "redis-server --appendonly \"yes\""]
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: event_scanner --interval 30

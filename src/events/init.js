@@ -4,34 +4,32 @@ const redis = require("redis");
 const RSMQPromise = require("rsmq-promise");
 const fs = require("fs");
 const { promisify } = require("util");
+const config = require("config");
 
-const config = require("../../config");
-const web3 = new Web3(config.endpoint);
+const web3 = new Web3(config.get("endpoint"));
 
 function initContracts() {
-  const contracts = [];
+  const initialized = [];
   const queueNames = [];
-  for (let i = 0; i < config.contracts.length; i++) {
-    contracts.push(
-      new web3.eth.Contract(
-        config.contracts[i].ABI,
-        config.contracts[i].address
-      )
+
+  const contracts = config.get("contracts");
+  for (let i = 0; i < contracts.length; i++) {
+    initialized.push(
+      new web3.eth.Contract(contracts[i].ABI, contracts[i].address)
     );
-    queueNames.push(config.contracts[i].queue.name);
+    queueNames.push(contracts[i].queue.name);
   }
   return {
-    contracts,
+    contracts: initialized,
     queueNames
   };
 }
 
-async function initRSMQ(password, queueNames) {
+async function initRSMQ(queueNames) {
   const rsmq = new RSMQPromise({
-    host: config.redis.options.host,
-    port: config.redis.options.port,
-    ns: "rsmq",
-    password
+    host: config.get("redis.options.host"),
+    port: config.get("redis.options.port"),
+    ns: "rsmq"
   });
 
   // NOTE: On first run, a queue might not exist yet, so we need to create it.
@@ -40,11 +38,10 @@ async function initRSMQ(password, queueNames) {
   return rsmq;
 }
 
-function initDB(password) {
+function initDB() {
   const redisClient = redis.createClient({
-    host: config.redis.options.host,
-    port: config.redis.options.port,
-    password
+    host: config.get("redis.options.host"),
+    port: config.get("redis.options.port")
   });
 
   // NOTE: This is unfortunately how the redis client docs recommend
@@ -59,15 +56,13 @@ function initDB(password) {
 }
 
 async function init() {
-  // NOTE: It's important to trim the secret file from whitespaces
-  const password = fs.readFileSync("/run/secrets/redis_pass", "utf8").trim();
   const { contracts, queueNames } = initContracts();
 
   return {
     contracts,
     queueNames,
-    rsmq: await initRSMQ(password, queueNames),
-    db: initDB(password),
+    rsmq: await initRSMQ(queueNames),
+    db: initDB(),
     web3: web3
   };
 }
