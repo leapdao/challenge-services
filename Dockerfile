@@ -1,7 +1,8 @@
-FROM node:latest
+FROM node:lts-alpine
 MAINTAINER tim.daubenschuetz@gmail.com
 
-RUN apt-get update && apt-get -y install cron
+ARG BUILD_DEPS="git g++ cmake make python2"
+RUN apk add --no-cache --update --virtual build_deps $BUILD_DEPS
 
 # Copy hello-cron file to the cron.d directory
 COPY ./config/crontab /etc/cron.d/crontab
@@ -22,8 +23,11 @@ WORKDIR /usr/src/event-scanner
 COPY package*.json ./
 RUN npm i
 
+# Delete build-deps to shrink package size
+RUN apk del build_deps
+
 # Copy the app into the container
 COPY . /usr/src/event-scanner
 
 # Run the command on container startup
-CMD ["cron", "-f"]
+CMD ["crond", "-f"]
