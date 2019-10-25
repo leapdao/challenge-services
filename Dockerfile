@@ -29,5 +29,12 @@ RUN apk del build_deps
 # Copy the app into the container
 COPY . /usr/src/event-scanner
 
+# Define node config dir
+ENV NODE_CONFIG_DIR=/usr/src/event-scanner/config
+# NOTE: Web3 manipulates some of the configurations that we input. node-config
+#       on the other hand doesn't allow modification on these inputs unless we
+#       allow mutation specifically.
+ENV ALLOW_CONFIG_MUTATIONS=true
+
 # Run the command on container startup
 CMD ["crond", "-f"]
