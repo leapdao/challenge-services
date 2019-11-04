@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-scanner
+  labels:
+    app: event-scanner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: event-scanner
+  template:
+    metadata:
+      labels:
+        app: event-scanner
+    spec:
+      containers:
+        - name: event-scanner
+          image: quay.io/leapdao/challenge-services
+          volumeMounts:
+            - name: "config"
+              mountPath: "config"
+      volumes:
+        - name: config
+          emptyDir: {}
+
