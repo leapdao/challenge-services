@@ -6,6 +6,7 @@ const fs = require("fs");
 const { promisify } = require("util");
 const config = require("config");
 
+const { initRSMQ } = require("../shared/utils");
 const web3 = new Web3(config.get("endpoint"));
 
 function initContracts() {
@@ -23,19 +24,6 @@ function initContracts() {
     contracts: initialized,
     queueNames
   };
-}
-
-async function initRSMQ(queueNames) {
-  const rsmq = new RSMQPromise({
-    host: config.get("redis.options.host"),
-    port: config.get("redis.options.port"),
-    ns: "rsmq"
-  });
-
-  // NOTE: On first run, a queue might not exist yet, so we need to create it.
-  await initQueues(rsmq, queueNames);
-
-  return rsmq;
 }
 
 function initDB() {
@@ -57,11 +45,13 @@ function initDB() {
 
 async function init() {
   const { contracts, queueNames } = initContracts();
+  const rsmq = await initRSMQ(queueNames);
+  await initQueues(rsmq, queueNames);
 
   return {
     contracts,
     queueNames,
-    rsmq: await initRSMQ(queueNames),
+    rsmq,
     db: initDB(),
     web3: web3
   };
