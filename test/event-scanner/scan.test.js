@@ -16,7 +16,7 @@ describe("Event Scanner", () => {
         .resolves(null),
       set: sinon.fake.resolves("Saved")
     };
-    const getLocalHeights = rewire("../../src/events").__get__(
+    const getLocalHeights = rewire("../../src/event-scanner/scan").__get__(
       "getLocalHeights"
     );
 

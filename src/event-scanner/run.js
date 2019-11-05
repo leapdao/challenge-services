@@ -1,5 +1,5 @@
 //@format
-const { run } = require("./events");
+const { run } = require("./scan");
 
 (async function() {
   console.log("Running event-scanner...");

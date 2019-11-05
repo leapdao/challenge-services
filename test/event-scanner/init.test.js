@@ -28,7 +28,7 @@ describe("Init", () => {
       }
     };
 
-    const events = rewire("../../src/events/init");
+    const events = rewire("../../src/event-scanner/init");
     events.__set__("config", {
       get: () => [expected]
     });
@@ -41,7 +41,9 @@ describe("Init", () => {
   });
 
   it("should create a queue if it doesn't exist yet", async () => {
-    const initQueues = rewire("../../src/events/init").__get__("initQueues");
+    const initQueues = rewire("../../src/event-scanner/init").__get__(
+      "initQueues"
+    );
     const rsmqStub = {
       getQueueAttributes: sinon.fake.throws(),
       createQueue: sinon.fake.resolves(1)
