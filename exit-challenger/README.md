@@ -1,8 +1,8 @@
-# Exit-challenger
+## Exit-challenger
 
 Exit-challenger is a tool written in Javascript that can earn ETH by participating in Plasma Leap Exit game.
 
-# Configuration
+## Configuration
 To create a config, do the following:
 ```
 $ cp config/default_template.json config/default.json
@@ -80,11 +80,11 @@ PRIV_KEY=0x86bd05de62f4d29a96db6ed004de2ebd0e39940dc0f2f99fdfe38271b9152901 PASS
 
 2. Edit Dockerfile-process, line 'ENV PASSWORD=' should be filled with password that you've used when you encrypted your private key.
 
-# Installation with Docker
+## Installation with Docker
 
 After complete configuration part you are able to build and run your docker images and containers.
 
-## Build and run container
+### Build and run container
 To build and run:
 ```sh
 docker-compose up --build
@@ -116,12 +116,13 @@ const maybeInvalidExitsQueue = new Bull('mi_queue', {redis: {host: 'redis', port
 const challengeTxsQueue = new Bull('ct_queue', {redis: {host: 'redis', port: 6379}});
 ```
 
-## Enjoy
+### Enjoy
 Remember that your ethereum address should have some ETH to send transactions.
 
-# Install and run exit-challenger locally without docker
+## Install and run exit-challenger locally without docker
 
 - First step is to clone repository from github:
+
 ```sh
 git clone git@github.com:leapdao/challenge-services.git
 ```
@@ -130,6 +131,7 @@ git clone git@github.com:leapdao/challenge-services.git
 - Third step is to set up configuration due to the configuration requirements above. Remember that you need to specify your local redis server host as `127.0.0.1` instead `redis` (e.i., in the example for docker). Remember about adding your encrypted ethereum private key (if you want to use encryption script, firstly install dependencies).
 
 - Fourth step is to install dependencies in both subdirectories:
+
 ```sh
 cd challenge-services/exit-challenger
 npm install
@@ -138,13 +140,15 @@ npm install
 ```
 
 - Fifth step is to run exit-challenger process:
+
+Paste password that you've used to encrypt your ethereum private key instead 'my password'.
 ```sh
 cd challenge-services/exit-challenger/src/tasks-queues
 PASSWORD='my password' nohup node process.js > outfile &
 ```
-Paste password that you've used to encrypt your ethereum private key instead 'my password'.
 
 - Sixth step is to run event-scanner and event-receiver:
+
 Important to run script inside specific directory, like below.
 ```sh
 cd challenge-services/exit-challenger/scripts
