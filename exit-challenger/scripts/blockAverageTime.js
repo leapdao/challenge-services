@@ -2,11 +2,11 @@ const Web3 = require("web3");
 const config = require("../config/default.json");
 
 const web3 = new Web3(config.rootChainProvider);
-const getBlockAverageTime = async web3 => {
+const getBlockAverageTime = async _web3 => {
   const span = 40000;
-  const blockNumber = await web3.eth.getBlockNumber();
-  const b1 = await web3.eth.getBlock(blockNumber);
-  const b2 = await web3.eth.getBlock(Math.max(0, blockNumber - span));
+  const blockNumber = await _web3.eth.getBlockNumber();
+  const b1 = await _web3.eth.getBlock(blockNumber);
+  const b2 = await _web3.eth.getBlock(Math.max(0, blockNumber - span));
   return (b1.timestamp - b2.timestamp) / (b1.number - b2.number);
 };
 

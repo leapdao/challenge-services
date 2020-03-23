@@ -15,10 +15,16 @@ const submissionQueueName = config.operatorContractQueueName;
 async function run() {
   console.log("Starting to receive events...");
   // _eventSignature below is Web3.utils.sha3("Submission(bytes32,uint256,address,bytes32,bytes32)")
-  await cleanQueue(submissionQueueName, "0xf986eac9872d4e0d99f75c012fa3e120147044f1e92bd63c196ff43f19f1e7ce");
+  await cleanQueue(
+    submissionQueueName,
+    "0xf986eac9872d4e0d99f75c012fa3e120147044f1e92bd63c196ff43f19f1e7ce"
+  );
   console.log("Successfully cleaned up queue of operator contract.");
   // _eventSignature below is Web3.utils.sha3("ExitStarted(bytes32,uint8,uint256,address,uint256,bytes32)")
-  await cleanQueue(exitQueueName, "0xdd3d84c638a8b94915688bf7497c3d748aaf6deedd859bed9cf79e9047c41df0");
+  await cleanQueue(
+    exitQueueName,
+    "0xdd3d84c638a8b94915688bf7497c3d748aaf6deedd859bed9cf79e9047c41df0"
+  );
   console.log("Successfully cleaned up queue of exitHandler contract.");
   process.exit();
 }
@@ -30,7 +36,8 @@ async function cleanQueue(_qname, _eventSignature) {
     if (eventFromMessage.raw.topics[0] !== _eventSignature) {
       await rsmq.deleteMessage({ qname: _qname, id: message.id });
     } else {
-      _eventSignature === "0xdd3d84c638a8b94915688bf7497c3d748aaf6deedd859bed9cf79e9047c41df0"
+      _eventSignature ===
+      "0xdd3d84c638a8b94915688bf7497c3d748aaf6deedd859bed9cf79e9047c41df0"
         ? await gotExitEvent(eventFromMessage.raw.topics, message.id)
         : await gotSubmissionEvent(message.id);
     }

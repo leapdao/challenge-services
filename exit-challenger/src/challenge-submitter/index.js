@@ -6,10 +6,7 @@ const config = require("../../config/default.json");
 const { leapChainProvider } = config;
 const leapWeb3 = helpers.extendWeb3(new Web3(leapChainProvider));
 
-const {
-  sendTaskToChallengeTxsQueue,
-  sendTaskToInvalidExitsQueue
-} = require("../tasks-queues");
+const { sendTaskToChallengeTxsQueue } = require("../tasks-queues");
 
 async function challengeSubmit(_task) {
   // _task = { exit: exit, spend: nextTx }
@@ -69,9 +66,9 @@ async function generateParameters(_txsData) {
   // Construct input and output indexes
   let inputIndex;
   let outputIndex;
-  for (let i = 0; i < _txsData.spendTxObject.inputs.length; i++) {
+  for (let i = 0; i < _txsData.spendTxObject.inputs.length; i += 1) {
     const input = _txsData.spendTxObject.inputs[i];
-    if (Util.toHexString(input.prevout.hash) == _txsData.exitTxData.hash) {
+    if (Util.toHexString(input.prevout.hash) === _txsData.exitTxData.hash) {
       inputIndex = i;
       outputIndex = input.prevout.index;
       break;
@@ -84,7 +81,7 @@ async function generateParameters(_txsData) {
 function generateExitUTXOId(exitEvent) {
   // Construct parameter for exitHandler.exits() call
   const hash = exitEvent.txHash;
-  const index = parseInt(exitEvent.outIndex);
+  const index = parseInt(exitEvent.outIndex, 10);
 
   const outPoint = new Outpoint(hash, index);
 

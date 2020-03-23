@@ -2,8 +2,8 @@ const Web3 = require("web3");
 const config = require("../config/default.json");
 
 const web3 = new Web3(config.rootChainProvider);
-const getBlockLatestTime = async web3 => {
-  const block = await web3.eth.getBlock("latest");
+const getBlockLatestTime = async _web3 => {
+  const block = await _web3.eth.getBlock("latest");
   return block.timestamp;
 };
 

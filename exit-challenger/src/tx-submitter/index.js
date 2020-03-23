@@ -1,12 +1,11 @@
 const Web3 = require("web3");
+const asyncRedis = require("async-redis");
 const config = require("../../config/default.json");
 
 const { rootChainProvider } = config;
 const { exitHandlerAddress } = config;
 const web3 = new Web3(rootChainProvider);
 const password = process.env.PASSWORD;
-
-const asyncRedis = require("async-redis");
 
 const client = asyncRedis.createClient({
   host: config.redis.host,
@@ -24,7 +23,6 @@ if (Object.prototype.toString.call(encrypted) === "[object Object]") {
   wallet = web3.eth.accounts.wallet;
 } else {
   throw Error("Exit-challenger cannot work without ethereum address");
-  process.exit(1);
 }
 
 async function txSubmitter(_task) {
@@ -41,7 +39,7 @@ async function txSubmitter(_task) {
     await client.set("nonce", nonceFromBlockhain);
   }
   let nonceFromDB = await client.get("nonce");
-  nonceFromDB = parseInt(nonceFromDB);
+  nonceFromDB = parseInt(nonceFromDB, 10);
 
   const msgData = generateMsgData(
     _task.challengeMsgData,
