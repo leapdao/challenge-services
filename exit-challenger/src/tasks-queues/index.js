@@ -46,9 +46,14 @@ async function receivedSubmissionEvent() {
   for (let i = 0; i < failedTasks.length; i += 1) {
     if (failedTasks[i].failedReason === "No period data.") {
       const failedTask = failedTasks[i];
-      // or failedTask.retry(); instead below
-      const job = await invalidExitsQueue.add(failedTask.data);
-      await failedTask.remove();
+      // for Plasma where Submissions appears less than one time per minute use object parameter ({delay: 60000, attempts: 3, backoff: 60000})
+      // Otherwise remove object parameter or use await failedTask.retry() instead
+      const job = await invalidExitsQueue.add(failedTask.data, {
+        delay: 60000,
+        attempts: 3,
+        backoff: 60000
+      });
+      failedTask.remove();
     }
   }
   return 1;
