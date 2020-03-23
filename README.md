@@ -1,19 +1,19 @@
-# challenge-services
+## challenge-services
 
 > A JavaScript tools to ensure validity of a LeapDAO plasma chain.
 
-## Content
+### Content
 
 This repository contains tools to provide MVP Plasma challenge games.
 Each tool has it's own subdirectory with own README file and the whole codebase to run tools independently of each over or together, depends on your needs.
 
-# Tools
+## Tools
 
-## Event-scanner
+### Event-scanner
 Purpose is to scan ethereum network for events of the contracts (that you set) and push these events into message queues.
 Redis-server is used for message queues.
 
-## Exit-challenger
+### Exit-challenger
 Purpose is to prevent double spends in Plasma by analyzing for ExitStarted event of ExitHandler contract (tool use event-scanner to receive events from the message queue) and by challenging the invalid exits. In this way tool helps Plasma with double spend problem and earns ETH for person who is running it.
 
 
