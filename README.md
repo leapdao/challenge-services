@@ -1,50 +1,27 @@
 # challenge-services
 
-> A JavaScript tool to ensure validity of a LeapDAO plasma chain.
+> A JavaScript tools to ensure validity of a LeapDAO plasma chain.
 
-## Configuration
+## Content
 
-To create a config, do the following:
+This repository contains tools to provide MVP Plasma challenge games.
+Each tool has it's own subdirectory with own README file and the whole codebase to run tools independently of each over or together, depends on your needs.
 
-```
-$ cp config/default_template.json config/default.json
-```
+# Tools
 
-Fill in all the relevant information. The template file contains a rough
-documentation of the fields.
+## Event-scanner
+Purpose is to scan ethereum network for events of the contracts (that you set) and push these events into message queues.
+Redis-server is used for message queues.
 
-This service uses a redis instance to store its local block height and uses it
-as a queue (rsmq).
+## Exit-challenger
+Purpose is to prevent double spends in Plasma by analyzing for ExitStarted event of ExitHandler contract (tool use event-scanner to receive events from the message queue) and by challenging the invalid exits. In this way tool helps Plasma with double spend problem and earns ETH for person who is running it.
 
-In `config/crontab`, define the frequency with which the service should scan
-for new blocks.
 
-## Installation
-
-1. To build and run the container: `docker-compose up --build`
-
-## Running the service in the cloud
-
-For internal purposes, this repository includes a file called
-`docker-compose-aws.yml`.  This can be used to run the service on an AWS EC2
-instance. A `containrrr/watchtower` services was added to continously update
-the challenge-services instance in case a new version is a available in the
-container repository. To run this file, do
-
-```
-$ docker-compose --file docker-compose-aws.yml up -d
-```
-
-## Contribute and Test
-
-Before running the tests, you'll have to run through the configuration described
-above.
+## Clone repo
 
 ```
 $ git clone git@github.com:leapdao/challenge-services.git
 $ cd challenge-services
-$ npm i
-$ npm run test
 ```
 
 ## License

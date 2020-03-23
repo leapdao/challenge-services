@@ -1,0 +1,16 @@
+{
+  "redis" : {
+    "host": "The redis host",
+    "port": 6379
+  },
+  "exitContractQueueName": "The name of the queue holding all events for exitHandler contract",
+  "operatorContractQueueName": "The name of the queue holding all events for operator contract",
+  "leapChainProvider": "An Plasma Leap node RPC URL",
+  "rootChainProvider": "An Ethereum node RPC URL",
+  "exitHandlerAddress": "An exit handler contract address",
+  "reportSlack": {
+    "slackAlertUrl": "",
+    "slackChannel": "",
+    "username": ""
+  }
+}

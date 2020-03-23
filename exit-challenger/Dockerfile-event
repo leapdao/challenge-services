@@ -1,0 +1,28 @@
+FROM node:lts-alpine
+
+MAINTAINER roleengineer@gmail.com
+
+ARG BUILD_DEPS="git g++ cmake make python2"
+RUN apk add --no-cache --update --virtual build_deps ${BUILD_DEPS}
+
+#Create app directory
+ARG APP_DIR=/home/usr/event-scanner-receiver
+RUN mkdir -p ${APP_DIR}/scanner
+RUN mkdir ${APP_DIR}/receiver
+WORKDIR ${APP_DIR}
+
+#Copy directories
+COPY ./event-scanner ${APP_DIR}/scanner
+COPY ./exit-challenger ${APP_DIR}/receiver
+
+#Install dependencies
+COPY ./exit-challenger/combinedDependencies/package*.json ./
+RUN npm install --production
+
+# Delete build-deps to shrink package size
+RUN apk del build_deps
+
+#Make script executable
+RUN cd ${APP_DIR}/receiver/scripts && chmod +x runDocker.sh
+
+CMD ["sh", "receiver/scripts/runDocker.sh"]
