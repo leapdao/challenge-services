@@ -5,7 +5,7 @@
 ### Content
 
 This repository contains tools to provide MVP Plasma challenge games.
-Each tool has it's own subdirectory with own README file and the whole codebase to run tools independently of each over or together, depends on your needs.
+Each tool is in its own subdirectory with README file. Tools can be run separately or together, depending on your needs.
 
 ## Tools
 
