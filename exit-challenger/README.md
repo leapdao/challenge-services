@@ -1,6 +1,6 @@
 ## Exit-challenger
 
-Exit-challenger is a tool written in Javascript that can earn ETH by participating in Plasma Leap Exit game.
+Exit-challenger is a tool to automatically run exit challenges for invalid exits on Plasma Leap Network.
 
 ## Configuration
 To create a config, do the following:
