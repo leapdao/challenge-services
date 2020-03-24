@@ -14,7 +14,9 @@ Event-scanner scans Ethereum network for contract events (configurable) and push
 Redis-server is used for message queues.
 
 ### Exit-challenger
-Purpose is to prevent double spends in Plasma by analyzing for ExitStarted event of ExitHandler contract (tool use event-scanner to receive events from the message queue) and by challenging the invalid exits. In this way tool helps Plasma with double spend problem and earns ETH for person who is running it.
+Exit-challenger automatically monitors all the exits on Plasma chain and submits challenges for the invalid ones. By running this tool you help Plasma to stay secure and earn ETH on a side.
+
+Exit-challenger relies on event-scanner to deliver exit events (`ExitStarted` events from `ExitHandler` contract).
 
 
 ## Clone repo
