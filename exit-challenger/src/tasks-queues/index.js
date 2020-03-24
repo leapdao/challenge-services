@@ -53,7 +53,7 @@ async function receivedSubmissionEvent() {
         attempts: 3,
         backoff: 60000
       });
-      failedTask.remove();
+      await failedTask.moveToCompleted();
     }
   }
   return 1;
