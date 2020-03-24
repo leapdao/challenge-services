@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 
-module.exports = (slackAlertUrl, slackChannel, username, text) => {
-  if (!slackAlertUrl || !slackChannel || !username)
+module.exports = (slackAlertUrl, slackChannel, _username, text) => {
+  if (!slackAlertUrl || !slackChannel || !_username)
     return Promise.reject("is not configured");
 
   const alertText = `${text}`;
@@ -11,7 +11,7 @@ module.exports = (slackAlertUrl, slackChannel, username, text) => {
       method: "POST",
       body: JSON.stringify({
         channel: slackChannel,
-        username,
+        username: _username,
         text: alertText,
         icon_emoji: ":rotating_light:"
       }),
