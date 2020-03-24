@@ -10,7 +10,7 @@ Each tool is in its own subdirectory with README file. Tools can be run separate
 ## Tools
 
 ### Event-scanner
-Purpose is to scan ethereum network for events of the contracts (that you set) and push these events into message queues.
+Event-scanner scans Ethereum network for contract events (configurable) and push these events into message queues for other services to consume.
 Redis-server is used for message queues.
 
 ### Exit-challenger
