@@ -11,13 +11,13 @@ RUN mkdir -p ${APP_DIR}/scanner
 RUN mkdir ${APP_DIR}/receiver
 WORKDIR ${APP_DIR}
 
-#Copy directories
-COPY ./event-scanner ${APP_DIR}/scanner
-COPY ./exit-challenger ${APP_DIR}/receiver
-
 #Install dependencies
 COPY ./exit-challenger/combinedDependencies/package*.json ./
 RUN npm install --production
+
+#Copy directories
+COPY ./event-scanner ${APP_DIR}/scanner
+COPY ./exit-challenger ${APP_DIR}/receiver
 
 # Delete build-deps to shrink package size
 RUN apk del build_deps
