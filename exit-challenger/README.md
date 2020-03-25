@@ -2,6 +2,8 @@
 
 Exit-challenger is a tool to automatically run exit challenges for invalid exits on Plasma Leap Network.
 
+![image](https://user-images.githubusercontent.com/35062472/77551540-8955c880-6ec3-11ea-8509-2fbb1dadb603.png)
+
 ## Configuration
 To create a config, do the following:
 ```
