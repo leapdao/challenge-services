@@ -4,7 +4,7 @@
   "description": "A JavaScript tool to challenge exits on Plasma Leap",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lint": "eslint ."
   },
   "author": "LeapDAO",
@@ -24,6 +24,7 @@
     "eslint-config-prettier": "^6.8.0",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-prettier": "^3.1.2",
+    "jest": "^25.1.0",
     "prettier": "^1.19.1"
   }
 }
