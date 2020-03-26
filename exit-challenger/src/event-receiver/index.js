@@ -8,7 +8,7 @@ class EventReceiver {
     this.rsmq = rsmq;
     this.submissionQueueName = submissionQueueName;
     this.exitQueueName = exitQueueName;
-  } 
+  }
 
   async run() {
     console.log("Starting to receive events...");
@@ -51,14 +51,14 @@ class EventReceiver {
       txHash: _exitEventTopics[1],
       outIndex: index
     };
-    const result = await exitCheck(exit);
+    const result = await exitCheck(exit).catch(e => console.log("exit-checker resulted in: ", e));
     if (result) {
       await this.rsmq.deleteMessage({ qname: this.exitQueueName, id: _messageId });
     }
   }
 
   async gotSubmissionEvent(_messageId) {
-    const result = await retryNoPeriodData();
+    const result = await retryNoPeriodData().catch(e => console.log("retryNoPeriodData resulted in: ", e));
     if (result) {
       await this.rsmq.deleteMessage({ qname: this.submissionQueueName, id: _messageId });
     }
