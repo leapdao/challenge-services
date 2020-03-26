@@ -3,8 +3,8 @@ services:
   exit-challenger-process:
     container_name: exit-challenger
     build:
-      context: .
-      dockerfile: Dockerfile-process
+      context: ../
+      dockerfile: ./exit-challenger/Dockerfile-process
     depends_on:
       - redis
   event-scanner-receiver:
