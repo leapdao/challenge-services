@@ -10,7 +10,7 @@ const EventReceiver = require("./event-receiver");
   });
   const exitQueueName = config.exitContractQueueName;
   const submissionQueueName = config.operatorContractQueueName;
-  
-  await new EventReceiver(rsmq, exitQueueName, submissionQueueName).run();
+
+  await new EventReceiver(rsmq, submissionQueueName, exitQueueName).run();
   process.exit();
 })();
