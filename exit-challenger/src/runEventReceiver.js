@@ -1,7 +1,7 @@
 // Event-receiver runner script
 const RSMQPromise = require("rsmq-promise");
 const config = require("../config/default.json");
-const { run } = require("./event-receiver");
+const EventReceiver = require("./event-receiver");
 
 (async function() {
   const rsmq = new RSMQPromise({
@@ -11,6 +11,6 @@ const { run } = require("./event-receiver");
   const exitQueueName = config.exitContractQueueName;
   const submissionQueueName = config.operatorContractQueueName;
   
-  await run(rsmq, exitQueueName, submissionQueueName);
+  await new EventReceiver(rsmq, exitQueueName, submissionQueueName).run();
   process.exit();
 })();
