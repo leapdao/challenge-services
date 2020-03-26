@@ -33,12 +33,11 @@ async function txSubmitter(_task) {
   const nonceFromBlockhain = await web3.eth.getTransactionCount(
     accountForSend.address
   );
-  let nonceInfo = await client.get("nonceInfo");
-  if (!nonceInfo) {
-    nonceInfo = await client.set("nonceInfo", true);
-    await client.set("nonce", nonceFromBlockhain);
-  }
   let nonceFromDB = await client.get("nonce");
+  if (!nonceFromDB) {
+     await client.set("nonce", nonceFromBlockhain);
+     nonceFromDB = nonceFromBlockhain;
+  }
   nonceFromDB = parseInt(nonceFromDB, 10);
 
   const msgData = generateMsgData(
