@@ -23,7 +23,7 @@ const invalidExitsQueue = new Bull("ie_queue", options);
 const challengeTxsQueue = new Bull("ct_queue", options);
 
 async function sendExitToMIQ(_exit) {
-  const job = await maybeInvalidQueue.add(_exit, {
+  return maybeInvalidQueue.add(_exit, {
     delay: 60000,
     attempts: 60,
     backoff: 60000
@@ -31,11 +31,11 @@ async function sendExitToMIQ(_exit) {
 }
 
 async function sendTaskToIEQ(_task) {
-  const job = await invalidExitsQueue.add(_task);
+  return invalidExitsQueue.add(_task);
 }
 
 async function sendTaskToCTQ(_task) {
-  const job = await challengeTxsQueue.add(_task);
+  return challengeTxsQueue.add(_task);
 }
 
 // retry failed jobs with reason no period data
@@ -48,7 +48,7 @@ async function receivedSubmissionEvent() {
       const failedTask = failedTasks[i];
       // for Plasma where Submissions appears less than one time per minute use object parameter ({delay: 60000, attempts: 3, backoff: 60000})
       // Otherwise remove object parameter or use await failedTask.retry() instead
-      const job = await invalidExitsQueue.add(failedTask.data, {
+      await invalidExitsQueue.add(failedTask.data, {
         delay: 60000,
         attempts: 3,
         backoff: 60000
