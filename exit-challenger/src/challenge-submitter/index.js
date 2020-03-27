@@ -80,7 +80,7 @@ async function generateParameters(_txsData) {
     }
   }
 
-  return [spendProof, exitProof, inputIndex.toString(), outputIndex.toString()];
+  return [spendProof, exitProof, outputIndex.toString(), inputIndex.toString()];
 }
 
 function generateExitUTXOId(exitEvent) {
