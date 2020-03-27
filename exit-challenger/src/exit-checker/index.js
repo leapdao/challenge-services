@@ -22,8 +22,8 @@ async function exitCheck(_exit) {
     data
   });
   if (request.data.result === null) {
-    console.log("I AM GOING TO SEND EXIT TO MIQ");
     await sendTaskToMaybeInvalidQueue(_exit);
+    console.log(`Exit with txHash: ${_exit.txHash} and outputIndex: ${_exit.outIndex} was send to Maybe Invalid Queue.`);
   } else {
     const nextTxRaw = request.data.result.raw;
     const nextTx = Tx.fromRaw(nextTxRaw);
@@ -33,6 +33,7 @@ async function exitCheck(_exit) {
         spend: nextTx.toJSON()
       };
       await sendTaskToInvalidExitsQueue(task);
+      console.log(`Exit with txHash: ${_exit.txHash} and outputIndex: ${_exit.outIndex} was send to Invalid Exits Queue.`);
     }
   }
   return 1;

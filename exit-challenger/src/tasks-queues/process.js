@@ -12,7 +12,6 @@ console.log("Process starting...");
 maybeInvalidQueue.process(async job => {
   if (job.attemptsMade === 59) {
     reportOnSlack(job.data);
-    await job.moveToCompleted();
   }
   return plasmaCheck(job.data);
 });

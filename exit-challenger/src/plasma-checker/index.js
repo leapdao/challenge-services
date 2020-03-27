@@ -14,7 +14,7 @@ const data = {
 
 async function plasmaCheck(_exit) {
   data.params = [`${_exit.txHash}:${_exit.outIndex}`];
-  console.log(data.params);
+  console.log(`Plasma-checker handles this ${data.params} maybe invalid exit.`);
   const request = await axios({
     method: "post",
     url: leapChainProvider,
@@ -33,7 +33,7 @@ async function plasmaCheck(_exit) {
     await sendTaskToInvalidExitsQueue(task);
   }
 
-  console.log("PLASMA CHECKER JOB COMPLETED");
+  console.log(`Plasma-checker completed with this ${data.params}` );
   return Promise.resolve("Totally completed.");
 }
 

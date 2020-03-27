@@ -10,9 +10,11 @@ const { sendTaskToChallengeTxsQueue } = require("../tasks-queues");
 
 async function challengeSubmit(_task) {
   // _task = { exit: exit, spend: nextTx }
+  console.log("Challenge-submitter is starting...");
   const txsData = await generateTxsData(_task);
   const status = await periodDataStatus(txsData);
   if (status) {
+    console.log(`Period data for UTXO ${_task.exit.txHash} is ready.`);
     const parametersArray = await generateParameters(txsData);
     const exitUTXOId = generateExitUTXOId(_task.exit);
     const task = {
@@ -20,7 +22,9 @@ async function challengeSubmit(_task) {
       exitsCallData: exitUTXOId
     };
     await sendTaskToChallengeTxsQueue(task);
+    console.log("Task was send to Challenge Txs Queue.");
   } else {
+    console.log(`Period data for UTXO ${_task.exit.txHash} isn't ready.`);
     return Promise.reject(new Error("No period data."));
   }
   return Promise.resolve("Task completed.");
@@ -47,8 +51,6 @@ async function periodDataStatus(_txsData) {
   const periodDataExit = await leapWeb3.getPeriodByBlockHeight(
     _txsData.exitTxData.blockNumber
   );
-  console.log(periodDataExit);
-  console.log(periodDataSpend);
   if (periodDataExit && periodDataSpend) {
     return true;
   }

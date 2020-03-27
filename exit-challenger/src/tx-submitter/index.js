@@ -27,6 +27,7 @@ if (Object.prototype.toString.call(encrypted) === "[object Object]") {
 
 async function txSubmitter(_task) {
   // _task = {challengeMsgData: msgData, exitsCallData: callData}
+  console.log("Tx-submitter is starting...");
   const accountForSend = wallet[0];
   // Tracking nonce
   let nonce;
@@ -64,9 +65,8 @@ async function txSubmitter(_task) {
     gasPrice,
     gas: 120000
   };
-  console.log(tx);
+
   const signedTx = await accountForSend.signTransaction(tx);
-  console.log(signedTx);
   const signedTxRaw = signedTx.rawTransaction;
   // check if challenge was already done
   const result = await web3.eth.call({
@@ -85,13 +85,13 @@ async function txSubmitter(_task) {
     { name: "periodRoot", type: "bytes32" }
   ];
   const exitState = web3.eth.abi.decodeParameters(jsonOutputs, result);
-  console.log(exitState);
 
   if (exitState.stake !== "0" && !exitState.finalized) {
-    console.log("START SENDING SIGNED TX ", Date.now());
     web3.eth.sendSignedTransaction(signedTxRaw);
-    console.log("END SENDING SIGNED TX ", Date.now());
+    console.log(`Challenge tx ${signedTx.transactionHash} was sent to the Ethereum network. At: `, Date.now());
     await client.set("nonce", nonce + 1);
+  } else {
+    console.log("Invalid exit was already challenged.");
   }
 
   return Promise.resolve("completed");

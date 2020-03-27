@@ -40,20 +40,23 @@ async function sendTaskToCTQ(_task) {
 
 // retry failed jobs with reason no period data
 async function receivedSubmissionEvent() {
-  console.log("I am IN RECIEVED SUBMISSION EVENT");
+  console.log("Submission event was received...");
+  console.log("Starting to retry tasks with no period data...");
   const failedTasks = await invalidExitsQueue.getFailed();
   console.log("Failed tasks length: ", failedTasks.length);
   for (let i = 0; i < failedTasks.length; i += 1) {
     if (failedTasks[i].failedReason === "No period data.") {
       const failedTask = failedTasks[i];
+      const jobData = failedTask.data;
+      await failedTask.remove();
       // for Plasma where Submissions appears less than one time per minute use object parameter ({delay: 60000, attempts: 3, backoff: 60000})
       // Otherwise remove object parameter or use await failedTask.retry() instead
-      await invalidExitsQueue.add(failedTask.data, {
+      const job = await invalidExitsQueue.add(jobData, {
         delay: 60000,
         attempts: 3,
         backoff: 60000
       });
-      await failedTask.moveToCompleted();
+      // await failedTask.moveToCompleted('ok', true, true);
     }
   }
   return 1;
