@@ -1,0 +1,24 @@
+{
+  "name": "event-scanner-receiver",
+  "version": "1.0.0",
+  "description": "Combined dependencies for docker service event-scanner-receiver",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "LeapDAO",
+  "license": "MIT",
+  "dependencies": {
+    "async-redis": "^1.1.7",
+    "axios": "^0.19.2",
+    "bull": "^3.13.0",
+    "config": "^3.3.0",
+    "leap-core": "^3.0.0",
+    "node-fetch": "^2.6.0",
+    "promise.allsettled": "^1.0.2",
+    "redis": "^3.0.2",
+    "rsmq-promise": "^1.0.4",
+    "web3": "^1.2.6",
+    "websocket": "^1.0.31"
+  }
+}

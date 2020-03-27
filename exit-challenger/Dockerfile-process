@@ -1,0 +1,28 @@
+FROM node:lts-alpine
+
+MAINTAINER roleengineer@gmail.com
+
+ARG BUILD_DEPS="git g++ cmake make python2"
+RUN apk add --no-cache --update --virtual build_deps ${BUILD_DEPS}
+
+#Create app directory
+ARG APP_DIR=/home/usr/challenge-services
+RUN mkdir -p ${APP_DIR}/event-scanner
+RUN mkdir ${APP_DIR}/exit-challenger
+WORKDIR ${APP_DIR}
+
+#Install dependencies
+COPY ./exit-challenger/combinedDependencies/package*.json ./
+RUN npm install --production
+
+# Delete build-deps to shrink package size
+RUN apk del build_deps
+
+#Copy directories
+COPY ./event-scanner ${APP_DIR}/event-scanner
+COPY ./exit-challenger ${APP_DIR}/exit-challenger
+
+# Define password to encrypt keystore.json
+ENV PASSWORD=''
+
+CMD [ "node", "exit-challenger/src/tasks-queues/process.js" ]

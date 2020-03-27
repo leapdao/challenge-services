@@ -1,0 +1,24 @@
+version: "2"
+services:
+  exit-challenger-process:
+    container_name: exit-challenger
+    build:
+      context: ../
+      dockerfile: ./exit-challenger/Dockerfile-process
+    depends_on:
+      - redis
+  event-scanner-receiver:
+    container_name: event-scanner
+    build:
+      context: ../
+      dockerfile: ./exit-challenger/Dockerfile-event
+    depends_on:
+      - redis
+  redis:
+    container_name: redis
+    image: redis
+    volumes:
+      - ./redis:/data
+    expose:
+      - 6379
+    command: ["sh", "-c", "redis-server --appendonly \"yes\""]
