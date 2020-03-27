@@ -40,7 +40,8 @@ async function generateTxsData(_invalidExitTask) {
   return {
     spendTxObject: spendingTxObject,
     spendTxData,
-    exitTxData
+    exitTxData,
+    index: exit.outIndex
   };
 }
 
@@ -73,7 +74,9 @@ async function generateParameters(_txsData) {
     if (Util.toHexString(input.prevout.hash) === _txsData.exitTxData.hash) {
       inputIndex = i;
       outputIndex = input.prevout.index;
-      break;
+      if (outputIndex === parseInt(_txsData.index, 10)) {
+        break;
+      }
     }
   }
 

@@ -12,7 +12,6 @@ const client = asyncRedis.createClient({
   port: config.redis.port
 });
 
-// Rewrite with tracking nonce
 let wallet;
 // encrypt wallet
 const encrypted = require("./keystore/keystore");
