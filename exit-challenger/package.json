@@ -14,7 +14,7 @@
     "axios": "^0.19.2",
     "bull": "^3.13.0",
     "leap-core": "^3.0.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "rsmq-promise": "^1.0.4",
     "web3": "^1.2.6"
   },
