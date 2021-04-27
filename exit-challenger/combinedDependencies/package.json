@@ -16,7 +16,7 @@
     "leap-core": "^3.0.0",
     "node-fetch": "^2.6.0",
     "promise.allsettled": "^1.0.2",
-    "redis": "^3.0.2",
+    "redis": "^3.1.1",
     "rsmq-promise": "^1.0.4",
     "web3": "^1.2.6",
     "websocket": "^1.0.31"
