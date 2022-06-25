@@ -14,7 +14,7 @@
     "bull": "^3.13.0",
     "config": "^3.3.0",
     "leap-core": "^3.0.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "promise.allsettled": "^1.0.2",
     "redis": "^3.0.2",
     "rsmq-promise": "^1.0.4",
